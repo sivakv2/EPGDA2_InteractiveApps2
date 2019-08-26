@@ -1,0 +1,71 @@
+library(shiny)
+library(ggplot2)
+library(gapminder)
+library(DT)
+library(dplyr)
+
+varlist <- names(gapminder)
+
+# Define UI for application that draws a plot
+ui <- fluidPage(
+   
+   # Application title
+   titlePanel("Gapminder Data"),
+   
+   sidebarLayout(
+     sidebarPanel(
+              selectInput(inputId = "y",label = "Y-Axis",
+                          choices = varlist,
+                          selected = "gdpPercap"),
+              
+              checkboxInput("logy","Add y log values", value = FALSE),
+              
+                            selectInput(inputId = "x",label = "X-Axis",
+                          choices = varlist, 
+                          selected = "lifeExp"),
+              
+              selectInput(inputId = "z",label = "Color",
+                          choices = varlist, 
+                          selected = "continent"),
+              
+              # Set Year
+              sliderInput(inputId = "year", 
+                          label = "Year", 
+                          min = 1957, max = 2007, 
+                          value = 1957, step = 5, animate= TRUE)
+                    ),
+   
+   mainPanel (
+            plotOutput("plot")
+            )
+      )
+   )
+
+# Define server logic required to draw a histogram
+server <- function(input, output) {
+  
+  
+  #Create the table
+  output$plot <- renderPlot({
+
+    gp_ds <- gapminder %>%
+      filter(year == input$year)
+    
+  p <-gp_ds %>%  
+      ggplot (aes_string(x = input$x, y = input$y, color = input$z))+
+      geom_point()+
+      facet_wrap(.~continent)
+      
+  if (input$logy) {
+    p <- p + scale_y_log10()
+  }
+  
+  p
+  
+  
+    })
+}
+
+# Run the application 
+shinyApp(ui = ui, server = server)
+
