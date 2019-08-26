@@ -54,7 +54,7 @@ server <- function(input, output) {
   p <-gp_ds %>%  
       ggplot (aes_string(x = input$x, y = input$y, color = input$z))+
       geom_point()+
-      facet_wrap(.~continent)
+      facet_grid(continent~.)
       
   if (input$logy) {
     p <- p + scale_y_log10()
