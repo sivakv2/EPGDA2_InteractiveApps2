@@ -6,7 +6,7 @@ library(dplyr)
 
 varlist <- names(gapminder)
 
-# Define UI for application that draws a histogram
+# Define UI for application that draws a plot
 ui <- fluidPage(
    
    # Application title
@@ -32,9 +32,7 @@ ui <- fluidPage(
               sliderInput(inputId = "alpha", 
                           label = "Alpha:", 
                           min = 0, max = 1, 
-                          value = 0.5, step = 1)
-              
-              
+                          value = 0.5, step = 0.1)
                     ),
    
    mainPanel (
