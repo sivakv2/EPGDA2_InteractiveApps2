@@ -32,7 +32,7 @@ ui <- fluidPage(
               sliderInput(inputId = "alpha", 
                           label = "Alpha:", 
                           min = 0, max = 1, 
-                          value = 0.5, step = 1)
+                          value = 0.5)
               
               
                     ),
