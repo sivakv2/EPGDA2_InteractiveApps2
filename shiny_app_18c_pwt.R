@@ -1,13 +1,12 @@
 library(shiny)
 library(ggplot2)
-library(gapminder)
-library(DT)
 library(dplyr)
 library(readxl)
 
 
 pwt91 <- read_excel("~/Downloads/pwt91-2.xlsx", 
                       sheet = "Data")
+
 varlist <- names(pwt91)
 
 # Define UI for application that draws a plot
@@ -52,10 +51,10 @@ server <- function(input, output) {
   #Create the table
   output$plot <- renderPlot({
 
-    gp_ds <- pwt91 %>%
+    pwt_ds <- pwt91 %>%
       filter(year >= input$year[1] & year <= input$year[2])
     
-  p <-gp_ds %>%  
+  p <-pwt_ds %>%  
       ggplot (aes_string(x = input$x, y = input$y, color = input$z))+
       geom_point()
       
